@@ -1,0 +1,50 @@
+# local.zsh — machine-specific overrides
+#
+# Copy to `local.zsh` (gitignored) and customise. Sourced last from .zshrc,
+# so anything here overrides the committed config.
+
+# ---------- OS detection ----------
+case "$OSTYPE" in
+  linux-gnu*)
+    if grep -qiE '(microsoft|wsl)' /proc/version 2>/dev/null; then
+      OS=wsl
+    else
+      OS=linux
+    fi
+    ;;
+  darwin*) OS=mac ;;
+  *)       OS=other ;;
+esac
+
+# ---------- Linux / WSL only ----------
+if [[ "$OS" != "mac" ]]; then
+  alias open='xdg-open'
+fi
+
+# ---------- PATH extensions ----------
+# export PATH="$HOME/.local/bin:$PATH"   # already in .zshenv
+# command -v ruby >/dev/null && export PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH"
+# export PATH="$HOME/.npm/bin:$PATH"
+
+# ---------- Coloured man pages ----------
+# export LESS_TERMCAP_mb=$'\e[1;32m'
+# export LESS_TERMCAP_md=$'\e[1;32m'
+# export LESS_TERMCAP_me=$'\e[0m'
+# export LESS_TERMCAP_se=$'\e[0m'
+# export LESS_TERMCAP_so=$'\e[01;33m'
+# export LESS_TERMCAP_ue=$'\e[0m'
+# export LESS_TERMCAP_us=$'\e[1;4;31m'
+
+# ---------- Aliases / functions ----------
+# alias diff='diff --color=auto -y'
+# alias myproj='cd ~/Work/myproject'
+
+# yazi -> cd into the directory it exits in
+# y() {
+#   local tmp="$(mktemp -t yazi-cwd.XXXXXX)" cwd
+#   yazi "$@" --cwd-file="$tmp"
+#   if cwd="$(command cat -- "$tmp")" && [[ -n "$cwd" && "$cwd" != "$PWD" ]]; then
+#     builtin cd -- "$cwd"
+#   fi
+#   rm -f -- "$tmp"
+# }

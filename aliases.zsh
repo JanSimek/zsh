@@ -1,25 +1,20 @@
-# Better ls
+# =========================================================
+# Listing (eza)
+# =========================================================
+
 alias ls='eza --icons'
-
-# Detailed listing
 alias ll='eza -lh --icons --git'
-
-# Detailed listing including hidden files
 alias la='eza -lah --icons --git'
-
-# Tree view
 alias tree='eza --tree --icons'
 
-# Reuse ls completions for eza (avoids defining a separate completion function)
+# Reuse ls completions for eza
 compdef eza=ls
-
-# Better cat
-alias cat='bat'
 
 # =========================================================
 # Core utilities
 # =========================================================
 
+alias cat='bat'
 alias grep='rg --color=auto'
 alias diff='diff --color=auto'
 alias df='df -h'
@@ -28,24 +23,12 @@ alias df='df -h'
 # Navigation
 # =========================================================
 
-alias -- -='cd -'  # -- prevents - being parsed as a flag; cd - jumps to previous directory
+alias -- -='cd -'  # `cd -` jumps to previous directory
 
 # =========================================================
-# Editor
-# =========================================================
-
-alias vim='nvim'
-
-# =========================================================
-# Git
+# Git (the rest comes from oh-my-zsh's `git` plugin)
 # =========================================================
 
 alias glog='PAGER="less -F -X" git log'                              # -F quit if one screen, -X no clear on exit
 alias gadog='PAGER="less -F -X" git log --all --decorate --oneline --graph'
 alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
-
-# =========================================================
-# Video
-# =========================================================
-
-alias stream='mpv av://v4l2:/dev/video4 --fullscreen --demuxer-lavf-o=input_format=mjpeg,framerate=30 --profile=low-latency --untimed'

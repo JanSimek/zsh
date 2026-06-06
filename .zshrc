@@ -1,14 +1,27 @@
 # Powerful but minimal zsh configuration
-# Author: Radley E. Sidwell-Lewis
-# GitHub: https://www.github.com/radleylewis/zsh
+# Originally by: Radley E. Sidwell-Lewis (github.com/radleylewis/zsh)
+# Adapted to use oh-my-zsh + agnoster + emacs, runs on Linux / macOS / WSL.
 #
 # Uses:
+#   Framework:    oh-my-zsh (git plugin; agnoster theme)
 #   Plugins:      fast-syntax-highlighting, zsh-autosuggestions,
-#                 zsh-history-substring-search, zsh-vi-mode
-#   Prompt:       starship
+#                 zsh-history-substring-search
 #   Navigation:   zoxide, fzf, fd
-#   CLI tools:    eza, bat, nvim, ripgrep
+#   CLI tools:    eza, bat, ripgrep
 #   Node:         nvm
+
+# =========================================================
+# oh-my-zsh (handles theme + git plugin)
+# =========================================================
+
+export ZSH="$HOME/.oh-my-zsh"
+
+if [[ -d "$ZSH" ]]; then
+  ZSH_THEME="agnoster"
+  DISABLE_AUTO_UPDATE="true"
+  plugins=(git)
+  source "$ZSH/oh-my-zsh.sh"
+fi
 
 # =========================================================
 # History
@@ -34,34 +47,25 @@ setopt NOBEEP
 setopt NUMERIC_GLOB_SORT  # sort file10 after file9, not after file1
 
 # =========================================================
-# Smart directory navigation & lf
+# zoxide
 # =========================================================
 
-LF_ICONS=$(cat ~/.config/lf/icons | tr '\n' ':')
-export LF_ICONS
-
-# Initialize zoxide
-eval "$(zoxide init zsh)"
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 
 # =========================================================
-# Completion
+# Completion (skipped if OMZ already ran compinit)
 # =========================================================
 
-# Load completion system
-autoload -Uz compinit
+if [[ -z "$ZSH" || ! -d "$ZSH" ]]; then
+  autoload -Uz compinit
+  compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
+fi
 
-# Initialize completion with cached metadata file
-compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
-
-# Enable interactive completion menu selection
 zstyle ':completion:*' menu select
-
-# Make completion case-insensitive
-# Example: "doc" can complete to "Documents"
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # lowercase input matches upper and lower
 
 # =========================================================
-# Fuzzy finder
+# Fuzzy finder (per-OS install paths)
 # =========================================================
 
 # macOS / Homebrew (Apple Silicon)
@@ -82,7 +86,7 @@ if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
   source /usr/share/fzf/completion.zsh
 fi
 
-# Ubuntu
+# Ubuntu / Debian / WSL
 if [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
   source /usr/share/doc/fzf/examples/key-bindings.zsh
   source /usr/share/doc/fzf/examples/completion.zsh
@@ -92,21 +96,10 @@ fi
 # Modular Config Files
 # =========================================================
 
-# fzf configuration
 source "$ZDOTDIR/fzf.zsh"
-
-# Aliases
 source "$ZDOTDIR/aliases.zsh"
-
-# Custom keybindings
 source "$ZDOTDIR/bindings.zsh"
-
-# Plugins and plugin manager
 source "$ZDOTDIR/plugins.zsh"
-
-# Prompt/theme
-source "$ZDOTDIR/prompt.zsh"
-
 
 # =========================================================
 # Node / NVM
@@ -115,3 +108,9 @@ source "$ZDOTDIR/prompt.zsh"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
+
+# =========================================================
+# Machine-local overrides (gitignored)
+# =========================================================
+
+[[ -f "$ZDOTDIR/local.zsh" ]] && source "$ZDOTDIR/local.zsh"
