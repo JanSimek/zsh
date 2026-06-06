@@ -3,7 +3,7 @@
 Modular, cross-platform zsh setup. Runs on **Linux, macOS, and WSL**.
 
 Forked from [radleylewis/zsh](https://github.com/radleylewis/zsh) and adapted:
-- Kept **oh-my-zsh** with the `agnoster` theme and the `git` plugin
+- Kept **oh-my-zsh** with the `agnoster` theme and a small plugin set (`git`, `pip`, `python`, plus `brew` where Homebrew exists)
 - **emacs** instead of nvim as `$EDITOR`
 - **zsh-vi-mode** dropped (default emacs-style line editing)
 - Machine-specific stuff lives in a gitignored `local.zsh`
@@ -13,7 +13,7 @@ Forked from [radleylewis/zsh](https://github.com/radleylewis/zsh) and adapted:
 | File | Purpose |
 |------|---------|
 | `.zshenv`        | XDG paths, `$EDITOR`, `$MANPAGER`, base `$PATH` |
-| `.zshrc`         | Sources OMZ (agnoster + git), history, completion, fzf per-OS, modular files |
+| `.zshrc`         | Sources OMZ (agnoster + plugin set), history, completion, fzf per-OS, modular files |
 | `aliases.zsh`    | eza/bat/rg/diff aliases, git log helpers |
 | `bindings.zsh`   | Ctrl+arrows, Ctrl+F (fzf), arrow-key history search |
 | `fzf.zsh`        | fzf defaults + bat preview |
@@ -65,6 +65,8 @@ sudo tee /etc/zsh/zshenv >/dev/null <<'EOF'
 [[ -d "$XDG_CONFIG_HOME/zsh" ]] && export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 EOF
 ```
+
+> **macOS:** there is no `/etc/zsh/` directory — the system-wide file is **`/etc/zshenv`** (no `zsh/` subdir). Use `sudo tee /etc/zshenv` instead, or just drop the same two lines in `~/.zshenv`.
 
 **2. Create required directories**
 

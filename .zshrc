@@ -19,7 +19,8 @@ export ZSH="$HOME/.oh-my-zsh"
 if [[ -d "$ZSH" ]]; then
   ZSH_THEME="agnoster"
   DISABLE_AUTO_UPDATE="true"
-  plugins=(git)
+  plugins=(git pip python)
+  command -v brew >/dev/null 2>&1 && plugins+=(brew)  # only where Homebrew exists (macOS / Linuxbrew)
   source "$ZSH/oh-my-zsh.sh"
 fi
 
@@ -50,7 +51,7 @@ setopt NUMERIC_GLOB_SORT  # sort file10 after file9, not after file1
 # zoxide
 # =========================================================
 
-command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+command -v zoxide >/dev/null && eval "$(zoxide init zsh --cmd cd)"  # `cd` becomes zoxide (smart jump); `cdi` for an interactive pick
 
 # =========================================================
 # Completion (skipped if OMZ already ran compinit)
