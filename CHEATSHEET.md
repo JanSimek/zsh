@@ -151,6 +151,16 @@ gadog            # git log --all --decorate --oneline --graph
 dotfiles status  # bare-repo dotfiles wrapper
 ```
 
+## Claude Code (`cn` function in `aliases.zsh`)
+
+```sh
+cn                 # prompt for a session name (Enter = folder name), then start claude
+cn --model opus    # extra args pass through to claude
+```
+
+The name shows in Claude's prompt box, the terminal title and the `/resume` picker;
+resume it later with `claude --resume <name>`.
+
 ## ConfigAir build envs (`local.zsh`)
 
 ```sh
