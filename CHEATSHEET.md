@@ -58,17 +58,18 @@ $ git commit -m "fix typo"       ← grey suggestion
 | `End` | Accept full suggestion |
 | `Ctrl+\` | Toggle on / off |
 
-## zoxide (`cd` → `z` alias, from `local.zsh`)
+## zoxide (`cd` is zoxide, via `--cmd cd` in `.zshrc`)
 
 ```sh
-z dev          # jumps to most-frecent dir matching "dev" → ~/Development
-z zsh          # jumps to ~/Development/zsh
-z foo bar      # interactive picker if ambiguous
-zi             # interactive fzf-style picker
+cd dev         # jumps to most-frecent dir matching "dev" → ~/Development
+cd zsh         # jumps to ~/Development/zsh
+cd foo bar     # most-frecent dir matching "foo", then "bar"
+cd ~/some/path # real paths still work like plain cd
+cdi            # interactive fzf-style picker
 -              # previous directory (alias for `cd -`)
 ```
 
-zoxide tracks every directory you `cd`/`z` into — no need to teach it.
+zoxide tracks every directory you `cd` into — no need to teach it.
 
 ## eza (`ls` replacement)
 
@@ -263,7 +264,7 @@ diff a b             # colored, side-by-side (your local.zsh override)
 ## A realistic flow
 
 ```sh
-z zsh                   # jump to ~/Development/zsh
+cd zsh                  # jump to ~/Development/zsh
 gst                     # see status
 Ctrl+T                  # fuzzy-pick a file, "alias" + Enter → inserts ./aliases.zsh
 emacs <inserted>        # edit it
